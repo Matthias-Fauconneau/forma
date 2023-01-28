@@ -142,7 +142,7 @@ pub mod prelude {
         },
         Channel, BGR0, BGR1, BGRA, RGB0, RGB1, RGBA,
     };
-    pub use crate::gpu::Timings;
+    #[cfg(feature = "gpu")] pub use crate::gpu::Timings;
     pub use crate::{
         math::{AffineTransform, GeomPresTransform, Point},
         styling::{

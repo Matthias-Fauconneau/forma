@@ -22,7 +22,7 @@ use std::{
 
 use clap::{Parser, Subcommand};
 use forma::prelude::*;
-use runner::{CpuRunner, GpuRunner};
+use runner::CpuRunner;
 use winit::{
     event::{ElementState, Event, KeyboardInput, VirtualKeyCode, WindowEvent},
     event_loop::{ControlFlow, EventLoop},
@@ -33,16 +33,12 @@ mod runner;
 
 enum Device {
     Cpu,
-    GpuLowPower,
-    GpuHighPerformance,
 }
 
 impl fmt::Display for Device {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             Device::Cpu => write!(f, "cpu"),
-            Device::GpuLowPower => write!(f, "gpu low power"),
-            Device::GpuHighPerformance => write!(f, "gpu high performance"),
         }
     }
 }
@@ -53,9 +49,7 @@ impl FromStr for Device {
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s.to_lowercase().as_str() {
             "c" | "cpu" => Ok(Device::Cpu),
-            "l" | "gpu-low" => Ok(Device::GpuLowPower),
-            "h" | "gpu-high" => Ok(Device::GpuHighPerformance),
-            _ => Err("must be c|cpu or l|gpu-low or h|gpu-high"),
+            _ => Err("must be c|cpu"),
         }
     }
 }
@@ -166,18 +160,6 @@ fn main() {
     let event_loop = EventLoop::new();
     let mut runner: Box<dyn Runner> = match opts.device {
         Device::Cpu => Box::new(CpuRunner::new(&event_loop, width as u32, height as u32)),
-        Device::GpuLowPower => Box::new(GpuRunner::new(
-            &event_loop,
-            width as u32,
-            height as u32,
-            wgpu::PowerPreference::LowPower,
-        )),
-        Device::GpuHighPerformance => Box::new(GpuRunner::new(
-            &event_loop,
-            width as u32,
-            height as u32,
-            wgpu::PowerPreference::HighPerformance,
-        )),
     };
 
     let mut instant = Instant::now();

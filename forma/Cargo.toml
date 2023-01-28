@@ -45,5 +45,5 @@ pollster.workspace = true
 rand.workspace = true
 
 [features]
-default = ["gpu"]
+#default = ["gpu"]
 gpu = ["bytemuck", "ramhorns", "wgpu"]

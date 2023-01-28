@@ -20,12 +20,13 @@ edition = "2021"
 [dependencies]
 bytemuck.workspace = true
 clap = { version = "3.1", features = ["derive"] }
-forma = { path = "../forma", features = ["gpu"], package = "forma-render"}
+forma = { path = "../forma", default-features = false, package = "forma-render"}
 image = "0.23"
 nalgebra = "0.31.4"
 pollster.workspace = true
 rand.workspace = true
 svg = "0.5"
 svgtypes = "0.4"
-winit = "0.27.1"
-wgpu.workspace = true
+winit = { version = "0.27.1", default-features = false, features = ["wayland"] }
+softbuffer = "0.2"
+#wgpu.workspace = true
